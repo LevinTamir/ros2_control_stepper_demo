@@ -41,9 +41,7 @@ stepperbot_ws/
 └── stepperbot_firmware/ #  <-- HERE
 ```
 
-To flash the Arduino Nano, install the **PlatformIO IDE extension for VS Code**:
-
-[PlatformIO VS Code Extension](https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide)
+To flash the Arduino Nano, install the [PlatformIO VS Code Extension](https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide).
 
 After installing the extension:
 
