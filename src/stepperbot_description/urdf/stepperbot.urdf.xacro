@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot name="stepperbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Forward hardware args to ros2_control xacro -->
+  <xacro:arg name="serial_port"   default="/dev/ttyUSB0"/>
+  <xacro:arg name="baud_rate"     default="115200"/>
+  <xacro:arg name="steps_per_rev" default="1600"/>
+
+  <!-- Include ros2_control configuration -->
+  <xacro:include filename="$(find stepperbot_description)/urdf/stepperbot.ros2_control.xacro"/>
+
+  <!-- Example geometry for NEMA17 -->
+  <xacro:property name="motor_width" value="0.042"/>
+  <xacro:property name="motor_length" value="0.047"/>
+  <xacro:property name="shaft_radius" value="0.0025"/>
+  <xacro:property name="shaft_length" value="0.024"/>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.01"/>
+      </geometry>
+      <material name="gray"><color rgba="0.5 0.5 0.5 1"/></material>
+    </visual>
+  </link>
+
+  <link name="stepper_body">
+    <visual>
+      <geometry>
+        <box size="${motor_width} ${motor_width} ${motor_length}"/>
+      </geometry>
+      <material name="dark"><color rgba="0.2 0.2 0.2 1"/></material>
+    </visual>
+  </link>
+
+  <link name="stepper_shaft">
+    <visual>
+      <geometry>
+        <cylinder radius="${shaft_radius}" length="${shaft_length}"/>
+      </geometry>
+      <material name="metal"><color rgba="0.7 0.7 0.7 1"/></material>
+    </visual>
+  </link>
+
+  <joint name="base_to_body" type="fixed">
+    <parent link="base_link"/>
+    <child link="stepper_body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="stepper_joint" type="revolute">
+    <parent link="stepper_body"/>
+    <child link="stepper_shaft"/>
+    <origin xyz="0 0 ${motor_length}" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.283" upper="6.283" velocity="10" effort="1"/>
+  </joint>
+
+</robot>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Hardware config parameters (must be declared here!) -->
+  <xacro:arg name="serial_port"   default="/dev/ttyUSB0"/>
+  <xacro:arg name="baud_rate"     default="115200"/>
+  <xacro:arg name="steps_per_rev" default="1600"/>
+
+  <ros2_control name="StepperSystem" type="system">
+    <hardware>
+      <plugin>stepperbot_controller/StepperBotHardware</plugin>
+
+      <param name="serial_port">$(arg serial_port)</param>
+      <param name="baud_rate">$(arg baud_rate)</param>
+      <param name="steps_per_rev">$(arg steps_per_rev)</param>
+    </hardware>
+
+    <joint name="stepper_joint">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+    </joint>
+  </ros2_control>
+
+</robot>

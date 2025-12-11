@@ -1,0 +1,9 @@
+<library path="stepperbot_controller">
+  <class name="stepperbot_controller/StepperBotHardware"
+         type="stepperbot_controller::StepperBotHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Hardware interface for a stepper motor driven via Arduino Nano (STEP=D5, DIR=D6).
+    </description>
+  </class>
+</library>
