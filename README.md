@@ -16,10 +16,10 @@ Everything is designed to be simple, readable, and extendable.
 #### Requirements
 
 - **ROS 2 Jazzy** (tested)
-- **PlatformIO** VS Code extension (for firmware upload)
+- **PlatformIO** (VS Code extension)
 - **Arduino Nano**
-- **Stepper driver** (A4988, DRV8825, TMC-series, etc.)
-- **Stepper motor** (e.g., NEMA17)
+- **Stepper driver**
+- **Stepper motor**
 
 ---
 
@@ -27,7 +27,7 @@ Everything is designed to be simple, readable, and extendable.
 
 ```bash
 git clone git@github.com:LevinTamir/ros2_control_stepper_demo.git stepperbot_ws
-cd stepperbot_ws
+cd stepperbot_ws/
 ```
 
 
@@ -47,7 +47,7 @@ After installing the extension:
 
 1. Open VS Code  
 2. Go to **File → Open Folder** and select `stepperbot_firmware/`  
-3. In the PlatformIO toolbar, click **Build** (checkmark icon in bottom bar)  
+3. In the PlatformIO toolbar, click **Build** (checkmark icon in the bottom bar)  
 4. Click **Upload** (right-arrow icon) to flash the firmware
 
 And that's it.
@@ -55,7 +55,7 @@ And that's it.
 #### 3. Build the ROS 2 Packages
 
 ```bash
-cd ~/<path-to-dir-location>/stepperbot_ws # Replace with local directory location
+cd ~/<path-to-dir-location>/stepperbot_ws # Replace with your local directory location
 colcon build
 source install/setup.bash
 ```
@@ -78,11 +78,13 @@ stepperbot_ws/
 After connecting the Arduino and Motor, run:
  ```bash
 cd ~/<path-to-dir-location>/stepperbot_ws # Replace with local directory location
+source install/setup.bash
 ros2 launch stepperbot_controller stepperbot_controllers.launch.py
  ```
 If your Arduino Nano is on another port:
 
 ```bash
+source install/setup.bash
 ros2 launch stepperbot_controller stepperbot_controllers.launch.py serial_port:=/dev/<USB-PORT>
 ```
 To launch Rviz, run:
@@ -96,7 +98,6 @@ ros2 launch stepperbot_description display.launch.py
 To send commands to the motor, run:
 
 ```bash
-source install/setup.bash
 ros2 topic pub /stepper_position_controller/commands \
 std_msgs/msg/Float64MultiArray "data: [1.0]" # Change radians as wanted
 ```
