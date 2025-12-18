@@ -4,7 +4,7 @@
   <!-- Forward hardware args to ros2_control xacro -->
   <xacro:arg name="serial_port"   default="/dev/ttyUSB0"/>
   <xacro:arg name="baud_rate"     default="115200"/>
-  <xacro:arg name="steps_per_rev" default="1600"/>
+  <!-- <xacro:arg name="steps_per_rev" default="1600"/> -->
 
   <!-- Include ros2_control configuration -->
   <xacro:include filename="$(find stepperbot_description)/urdf/stepperbot.ros2_control.xacro"/>

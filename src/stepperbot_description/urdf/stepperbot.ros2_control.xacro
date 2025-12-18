@@ -4,7 +4,7 @@
   <!-- Hardware config parameters (must be declared here!) -->
   <xacro:arg name="serial_port"   default="/dev/ttyUSB0"/>
   <xacro:arg name="baud_rate"     default="115200"/>
-  <xacro:arg name="steps_per_rev" default="1600"/>
+  <xacro:arg name="steps_per_rev" default="200"/>
 
   <ros2_control name="StepperSystem" type="system">
     <hardware>

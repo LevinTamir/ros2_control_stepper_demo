@@ -42,6 +42,8 @@ hardware_interface::CallbackReturn StepperBotHardware::on_init(
   baud_ = std::stoi(info_.hardware_parameters.at("baud_rate"));
   steps_per_rev_ = std::stod(info_.hardware_parameters.at("steps_per_rev"));
 
+  std::cout << "[StepperBotHardware] Initialized with steps_per_rev = " << steps_per_rev_ << std::endl;
+
   hw_position_ = 0.0;
   hw_velocity_ = 0.0;
   hw_position_command_ = 0.0;
