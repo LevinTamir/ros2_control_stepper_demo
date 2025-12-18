@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>stepperbot_bringup</name>
+  <version>0.0.0</version>
+  <description>Bringup (launch/config) for StepperBot</description>
+  <maintainer email="tamirlevin@gmail.com">Tamir Levin</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+
+  <exec_depend>stepperbot_controller</exec_depend>
+  <exec_depend>stepperbot_description</exec_depend>
+  <exec_depend>xacro</exec_depend> 
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
