@@ -64,7 +64,14 @@ def generate_launch_description():
     stepper_position_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["stepper_position_controller"],
+        arguments=["stepper_position_controller", "--inactive"],
+        output="screen",
+    )
+
+    joint_trajectory_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_trajectory_controller"],
         output="screen",
     )
 
@@ -74,4 +81,5 @@ def generate_launch_description():
         controller_manager,
         joint_state_broadcaster_spawner,
         stepper_position_controller_spawner,
+        joint_trajectory_controller_spawner,
     ])
