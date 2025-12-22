@@ -45,13 +45,18 @@ private:
 
   int fd_{-1};  // serial file descriptor
 
-  // Single joint state + command
-  double hw_position_{0.0};
-  double hw_velocity_{0.0};
-  double hw_position_command_{0.0};
+  // Joint 1 state + command
+  double hw_position_1_{0.0};
+  double hw_velocity_1_{0.0};
+  double hw_position_command_1_{0.0};
+
+  // Joint 2 state + command
+  double hw_position_2_{0.0};
+  double hw_velocity_2_{0.0};
+  double hw_position_command_2_{0.0};
 
   bool configure_port_();
-  bool send_position_command_rad_(double position_rad);
+  bool send_position_command_rad_(double position_rad_1, double position_rad_2);
 };
 
 }  // namespace stepperbot_controller

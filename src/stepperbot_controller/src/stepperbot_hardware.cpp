@@ -44,9 +44,13 @@ hardware_interface::CallbackReturn StepperBotHardware::on_init(
 
   std::cout << "[StepperBotHardware] Initialized with steps_per_rev = " << steps_per_rev_ << std::endl;
 
-  hw_position_ = 0.0;
-  hw_velocity_ = 0.0;
-  hw_position_command_ = 0.0;
+  hw_position_1_ = 0.0;
+  hw_velocity_1_ = 0.0;
+  hw_position_command_1_ = 0.0;
+
+  hw_position_2_ = 0.0;
+  hw_velocity_2_ = 0.0;
+  hw_position_command_2_ = 0.0;
 
   return hardware_interface::CallbackReturn::SUCCESS;
 }
@@ -56,15 +60,21 @@ StepperBotHardware::export_state_interfaces()
 {
   std::vector<hardware_interface::StateInterface> state_interfaces;
 
-  // Single joint (must match your URDF joint name)
-  const auto & joint_name = info_.joints[0].name;
+  // Joint 1
+  state_interfaces.emplace_back(
+    hardware_interface::StateInterface(
+      "stepper_joint_1", hardware_interface::HW_IF_POSITION, &hw_position_1_));
+  state_interfaces.emplace_back(
+    hardware_interface::StateInterface(
+      "stepper_joint_1", hardware_interface::HW_IF_VELOCITY, &hw_velocity_1_));
 
+  // Joint 2
   state_interfaces.emplace_back(
     hardware_interface::StateInterface(
-      joint_name, hardware_interface::HW_IF_POSITION, &hw_position_));
+      "stepper_joint_2", hardware_interface::HW_IF_POSITION, &hw_position_2_));
   state_interfaces.emplace_back(
     hardware_interface::StateInterface(
-      joint_name, hardware_interface::HW_IF_VELOCITY, &hw_velocity_));
+      "stepper_joint_2", hardware_interface::HW_IF_VELOCITY, &hw_velocity_2_));
 
   return state_interfaces;
 }
@@ -74,11 +84,13 @@ StepperBotHardware::export_command_interfaces()
 {
   std::vector<hardware_interface::CommandInterface> command_interfaces;
 
-  const auto & joint_name = info_.joints[0].name;
+  command_interfaces.emplace_back(
+    hardware_interface::CommandInterface(
+      "stepper_joint_1", hardware_interface::HW_IF_POSITION, &hw_position_command_1_));
 
   command_interfaces.emplace_back(
     hardware_interface::CommandInterface(
-      joint_name, hardware_interface::HW_IF_POSITION, &hw_position_command_));
+      "stepper_joint_2", hardware_interface::HW_IF_POSITION, &hw_position_command_2_));
 
   return command_interfaces;
 }
@@ -111,9 +123,14 @@ StepperBotHardware::on_configure(const rclcpp_lifecycle::State &)
 hardware_interface::CallbackReturn
 StepperBotHardware::on_activate(const rclcpp_lifecycle::State &)
 {
-  hw_position_ = 0.0;
-  hw_velocity_ = 0.0;
-  hw_position_command_ = 0.0;
+  hw_position_1_ = 0.0;
+  hw_velocity_1_ = 0.0;
+  hw_position_command_1_ = 0.0;
+
+  hw_position_2_ = 0.0;
+  hw_velocity_2_ = 0.0;
+  hw_position_command_2_ = 0.0;
+
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
@@ -133,8 +150,11 @@ StepperBotHardware::read(const rclcpp::Time &, const rclcpp::Duration & period)
 {
   // Open-loop approximation: position = last command
   // You can replace this with real feedback later.
-  hw_position_ = hw_position_command_;
-  hw_velocity_ = 0.0;
+  hw_position_1_ = hw_position_command_1_;
+  hw_velocity_1_ = 0.0;
+
+  hw_position_2_ = hw_position_command_2_;
+  hw_velocity_2_ = 0.0;
 
   (void)period;
   return hardware_interface::return_type::OK;
@@ -143,7 +163,7 @@ StepperBotHardware::read(const rclcpp::Time &, const rclcpp::Duration & period)
 hardware_interface::return_type
 StepperBotHardware::write(const rclcpp::Time &, const rclcpp::Duration &)
 {
-  if (!send_position_command_rad_(hw_position_command_))
+  if (!send_position_command_rad_(hw_position_command_1_, hw_position_command_2_))
   {
     return hardware_interface::return_type::ERROR;
   }
@@ -191,7 +211,7 @@ bool StepperBotHardware::configure_port_()
   return true;
 }
 
-bool StepperBotHardware::send_position_command_rad_(double position_rad)
+bool StepperBotHardware::send_position_command_rad_(double position_rad_1, double position_rad_2)
 {
   if (fd_ < 0)
   {
@@ -199,11 +219,15 @@ bool StepperBotHardware::send_position_command_rad_(double position_rad)
     return false;
   }
 
-  // rad -> steps
-  double steps_double = position_rad * (steps_per_rev_ / (2.0 * M_PI));
-  long steps = std::lround(steps_double);
+  // rad -> steps for both motors
+  double steps_double_1 = position_rad_1 * (steps_per_rev_ / (2.0 * M_PI));
+  long steps_1 = std::lround(steps_double_1);
 
-  std::string line = "P " + std::to_string(steps) + "\n";
+  double steps_double_2 = position_rad_2 * (steps_per_rev_ / (2.0 * M_PI));
+  long steps_2 = std::lround(steps_double_2);
+
+  // Send command: "P1 steps_1 P2 steps_2\n"
+  std::string line = "P1 " + std::to_string(steps_1) + " P2 " + std::to_string(steps_2) + "\n";
 
   const char * data = line.c_str();
   ssize_t len = static_cast<ssize_t>(line.size());

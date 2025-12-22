@@ -15,7 +15,13 @@
       <param name="steps_per_rev">$(arg steps_per_rev)</param>
     </hardware>
 
-    <joint name="stepper_joint">
+    <joint name="stepper_joint_1">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+    </joint>
+
+    <joint name="stepper_joint_2">
       <command_interface name="position"/>
       <state_interface   name="position"/>
       <state_interface   name="velocity"/>

@@ -14,5 +14,6 @@ joint_state_broadcaster:
 stepper_position_controller:
   ros__parameters:
     joints:
-      - stepper_joint
+      - stepper_joint_1
+      - stepper_joint_2
     interface_name: position

@@ -24,7 +24,8 @@
     </visual>
   </link>
 
-  <link name="stepper_body">
+  <!-- Motor 1 -->
+  <link name="stepper_body_1">
     <visual>
       <geometry>
         <box size="${motor_width} ${motor_width} ${motor_length}"/>
@@ -33,7 +34,7 @@
     </visual>
   </link>
 
-  <link name="stepper_shaft">
+  <link name="stepper_shaft_1">
     <visual>
       <geometry>
         <cylinder radius="${shaft_radius}" length="${shaft_length}"/>
@@ -42,15 +43,48 @@
     </visual>
   </link>
 
-  <joint name="base_to_body" type="fixed">
+  <joint name="base_to_body_1" type="fixed">
     <parent link="base_link"/>
-    <child link="stepper_body"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <child link="stepper_body_1"/>
+    <origin xyz="-0.025 0 0" rpy="0 0 0"/>
   </joint>
 
-  <joint name="stepper_joint" type="revolute">
-    <parent link="stepper_body"/>
-    <child link="stepper_shaft"/>
+  <joint name="stepper_joint_1" type="revolute">
+    <parent link="stepper_body_1"/>
+    <child link="stepper_shaft_1"/>
+    <origin xyz="0 0 ${motor_length}" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.283" upper="6.283" velocity="10" effort="1"/>
+  </joint>
+
+  <!-- Motor 2 -->
+  <link name="stepper_body_2">
+    <visual>
+      <geometry>
+        <box size="${motor_width} ${motor_width} ${motor_length}"/>
+      </geometry>
+      <material name="dark"><color rgba="0.2 0.2 0.2 1"/></material>
+    </visual>
+  </link>
+
+  <link name="stepper_shaft_2">
+    <visual>
+      <geometry>
+        <cylinder radius="${shaft_radius}" length="${shaft_length}"/>
+      </geometry>
+      <material name="metal"><color rgba="0.7 0.7 0.7 1"/></material>
+    </visual>
+  </link>
+
+  <joint name="base_to_body_2" type="fixed">
+    <parent link="base_link"/>
+    <child link="stepper_body_2"/>
+    <origin xyz="0.025 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="stepper_joint_2" type="revolute">
+    <parent link="stepper_body_2"/>
+    <child link="stepper_shaft_2"/>
     <origin xyz="0 0 ${motor_length}" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-6.283" upper="6.283" velocity="10" effort="1"/>
