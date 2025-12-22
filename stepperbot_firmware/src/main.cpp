@@ -21,6 +21,9 @@ AccelStepper stepper2(AccelStepper::DRIVER, STEP_PIN_2, DIR_PIN_2);
 // MultiStepper for coordinated movement
 MultiStepper steppers;
 
+// Track if we're using coordinated movement
+bool useCoordinatedMovement = false;
+
 static const int INPUT_BUFFER_SIZE = 64;
 char input_buffer[INPUT_BUFFER_SIZE];
 int input_pos = 0;
@@ -54,13 +57,18 @@ void loop()
 {
   handleSerial();
   
-  // Run steppers - only steps if not at target position
-  // This prevents continuous stepping after reaching target
-  if (stepper1.distanceToGo() != 0) {
-    stepper1.run();
-  }
-  if (stepper2.distanceToGo() != 0) {
-    stepper2.run();
+  // Use appropriate run method based on movement mode
+  if (useCoordinatedMovement) {
+    // MultiStepper handles coordination to reach targets simultaneously
+    steppers.run();
+  } else {
+    // Individual control - only run if motors need to move
+    if (stepper1.distanceToGo() != 0) {
+      stepper1.run();
+    }
+    if (stepper2.distanceToGo() != 0) {
+      stepper2.run();
+    }
   }
 }
 
@@ -101,11 +109,13 @@ void processCommand(const char * line)
     positions[0] = steps1;
     positions[1] = steps2;
     steppers.moveTo(positions);
+    useCoordinatedMovement = true;
     return;
   }
   
   // Legacy format: P1steps or P2steps - individual movement
   if (line[0] == 'P' || line[0] == 'p') {
+    useCoordinatedMovement = false;  // Switch to individual control
     if (line[1] == '1') {
       long steps = 0;
       int matched = sscanf(line + 2, "%ld", &steps);
