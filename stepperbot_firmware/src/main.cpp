@@ -4,7 +4,7 @@
 const int STEP_PIN = 5;
 const int DIR_PIN  = 6;
 
-const long MAX_STEPS_PER_SECOND        = 800;
+const long MAX_STEPS_PER_SECOND        = 200;
 const unsigned long STEP_INTERVAL_US   = 1000000UL / MAX_STEPS_PER_SECOND;
 const unsigned int STEP_PULSE_WIDTH_US = 4;
 
