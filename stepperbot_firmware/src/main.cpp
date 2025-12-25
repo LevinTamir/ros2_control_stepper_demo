@@ -11,8 +11,8 @@ const int STEP_PIN_2 = 4;
 const int DIR_PIN_2 = 7;
 
 // Motor configuration
-const float MAX_SPEED = 3200.0;        // steps per second
-const float ACCELERATION = 3200.0;      // steps per second^2
+const float MAX_SPEED = 30000.0;        // steps per second
+const float ACCELERATION = 30000.0;      // steps per second^2
 
 // Create stepper instances (DRIVER mode: STEP, DIR pins)
 AccelStepper stepper1(AccelStepper::DRIVER, STEP_PIN_1, DIR_PIN_1);
