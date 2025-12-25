@@ -2,17 +2,17 @@
 #include <AccelStepper.h>
 #include <MultiStepper.h>
 
-// STEP1: D5, DIR1: D6
-// STEP2: D9, DIR2: D10
+// STEP1: D3, DIR1: D6
+// STEP2: D4, DIR2: D7
 
-const int STEP_PIN_1 = 5;
+const int STEP_PIN_1 = 3;
 const int DIR_PIN_1  = 6;
-const int STEP_PIN_2 = 9;
-const int DIR_PIN_2 = 10;
+const int STEP_PIN_2 = 4;
+const int DIR_PIN_2 = 7;
 
 // Motor configuration
-const float MAX_SPEED = 100.0;        // steps per second
-const float ACCELERATION = 50.0;      // steps per second^2
+const float MAX_SPEED = 3200.0;        // steps per second
+const float ACCELERATION = 3200.0;      // steps per second^2
 
 // Create stepper instances (DRIVER mode: STEP, DIR pins)
 AccelStepper stepper1(AccelStepper::DRIVER, STEP_PIN_1, DIR_PIN_1);

@@ -9,7 +9,7 @@ def generate_launch_description():
     # Allow overriding the serial port from the command line
     serial_port_arg = DeclareLaunchArgument(
         "serial_port",
-        default_value="/dev/ttyUSB0",
+        default_value="/dev/ttyACM0",
         description="Serial port where the Arduino Nano is connected",
     )
 

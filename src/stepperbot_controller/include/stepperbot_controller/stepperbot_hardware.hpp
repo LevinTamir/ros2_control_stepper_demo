@@ -41,7 +41,7 @@ private:
   // Serial config
   std::string port_;
   int baud_{115200};
-  double steps_per_rev_{400.0};
+  double steps_per_rev_{3200.0};
 
   int fd_{-1};  // serial file descriptor
 
