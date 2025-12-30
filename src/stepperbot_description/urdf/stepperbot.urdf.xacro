@@ -54,7 +54,7 @@
     <child link="stepper_shaft_1"/>
     <origin xyz="0 0 ${motor_length}" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-6.283" upper="6.283" velocity="10" effort="1"/>
+    <limit lower="-6.283" upper="6.283" velocity="100" effort="1"/>
   </joint>
 
   <!-- Motor 2 -->
@@ -87,7 +87,7 @@
     <child link="stepper_shaft_2"/>
     <origin xyz="0 0 ${motor_length}" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-6.283" upper="6.283" velocity="10" effort="1"/>
+    <limit lower="-6.283" upper="6.283" velocity="100" effort="1"/>
   </joint>
 
 </robot>
