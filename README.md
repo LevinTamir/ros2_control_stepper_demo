@@ -1,25 +1,23 @@
-# StepperBot – ROS 2 Control Stepper Motor Demo
+# ROS 2 Control Stepper Motor Demo
 
-StepperBot is a minimal, end-to-end demonstration of controlling a **real stepper motor** using **ros2_control**, an **Arduino Nano**, and a standard **STEP/DIR driver**.
+StepperBot is a minimal, end-to-end demonstration of controlling **real stepper motors** using **ros2_control**, an **Arduino**, and standard **STEP/DIR stepper motor drivers**.
 
 This repository includes:
 
+- bringup launch to load the robot model, hardware interface, and controllers (`stepperbot_bringup`)
 - custom ros2_control hardware plugin (`stepperbot_controller`)
-- URDF + ros2_control description (`stepperbot_description`)
-- Arduino firmware project (`stepperbot_firmware`)
-- bringup launch to load the robot model, hardware interface, and controllers
-
-Everything is designed to be simple, readable, and extendable.
+- URDF description (`stepperbot_description`)
+- Arduino firmware source code (`stepperbot_firmware`)
 
 ---
 
 #### Requirements
 
-- **ROS 2 Jazzy** (tested)
-- **PlatformIO** (VS Code extension)
-- **Arduino Nano**
-- **Stepper driver**
-- **Stepper motor**
+- **ROS 2 Jazzy** (tested).
+- **PlatformIO** - via VS Code extension.
+- **Arduino Uno** - with a CNC sheild.
+- **Stepper motor drivers** - two A4988 style motor drivers.
+- **Stepper motors** - two Nema 17 stepper motors.
 
 ---
 
